@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-
 Route::post('admin/login', [App\Http\Controllers\AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('admin/logout', [App\Http\Controllers\AuthController::class, 'logout']);
+
+    // Categories Routes
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('categories','index');
+        Route::post('category/create', 'store');
+        Route::get('category/{category:uuid}', 'show');
+        Route::delete('category/{category:uuid}', 'destroy');
+    });
 });
