@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
@@ -43,7 +44,7 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::create([
-            'uuid' => \Illuminate\Support\Str::uuid(),
+            'uuid' => Str::uuid(),
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
         ]);
