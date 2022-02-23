@@ -34,6 +34,7 @@ class OrderController extends Controller
             ->with('orderStatus',function($query){
                 return $query->select(['id', 'title']);
             })
+            ->with('products')
             ->withSort($sorting)
             ->withUser($request->input('user'))
             ->withOrderStatus($request->input('order_status'))

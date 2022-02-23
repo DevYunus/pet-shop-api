@@ -18,10 +18,10 @@ class OrderStatusSeeder extends Seeder
     {
         OrderStatus::factory()->count(4)
             ->state(new Sequence(
-                ['title' => 'ORDERED'],
-                ['title' => 'INPROGRESS'],
-                ['title' => 'DESPATCHED'],
-                ['title' => 'DELIEVERED'],
+                ['title' => 'Ordered'],
+                ['title' => 'InProcess'],
+                ['title' => 'Dispatched'],
+                ['title' => 'Delivered'],
             ))
             ->create();
     }

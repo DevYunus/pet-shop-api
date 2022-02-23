@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -17,6 +15,17 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(20)->create();
+//        Category::factory()->count(5)->create();
+        Category::factory()->count(5)
+            ->state(new Sequence(
+                ['title' => 'Category 1'],
+                ['title' => 'Category 2'],
+                ['title' => 'Category 3'],
+                ['title' => 'Category 4'],
+                ['title' => 'Category 5'],
+
+            ))
+            ->create();
     }
+
 }

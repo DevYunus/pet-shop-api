@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +20,7 @@ class DatabaseSeeder extends Seeder
             OrderStatusSeeder::class,
             PaymentSeeder::class,
             OrderSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

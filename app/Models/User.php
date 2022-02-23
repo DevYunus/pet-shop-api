@@ -63,4 +63,64 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+
+    public function scopeWithSort($query, $sorting)
+    {
+        if(empty($sorting)){
+            return $query;
+        }
+
+        [$sortBy, $direction] = $sorting;
+
+        if($sortBy){
+            return  $query->orderBy($sortBy, $direction?'desc':'asc');
+        }
+        return  $query;
+    }
+
+    public function scopeWithFirstName($query, $firstName)
+    {
+        if(!$firstName){
+            return $query;
+        }
+        return  $query->where('first_name','like', "%$firstName%");
+
+    }
+
+    public function scopeWithEmail($query, $email)
+    {
+        if(!$email){
+            return $query;
+        }
+
+        return  $query->where('email','like', "%$email%");
+    }
+
+    public function scopeWithPhone($query, $phone)
+    {
+        if(!$phone){
+            return $query;
+        }
+
+        return  $query->where('phone_number','like', "%$phone%");
+    }
+
+    public function scopeWithAddress($query, $address)
+    {
+        if(!$address){
+            return $query;
+        }
+
+        return  $query->where('address','like', "%$address%");
+    }
+
+    public function scopeWithIsMarketing($query, $isMarketing)
+    {
+        if(!$isMarketing){
+            return $query;
+        }
+
+        return  $query->where('is_marketing', $isMarketing);
+    }
 }

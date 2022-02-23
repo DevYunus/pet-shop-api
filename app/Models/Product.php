@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -36,10 +38,56 @@ class Product extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_product')
+            ->withTimestamps()
+            ->withPivot('quantity');
+    }
+
+    public function scopeWithSort($query, $sorting)
+    {
+        if(empty($sorting)){
+            return $query;
+        }
+
+        [$sortBy, $direction] = $sorting;
+        return  $query->orderBy($sortBy, $direction?'desc':'asc');
+    }
+
+    public function scopeWithCategory($query, $category)
+    {
+        if(!$category){
+            return $query;
+        }
+
+        return  $query->whereHas('category', function($q) use ($category){
+            return $q->where('title','like', "%$category%");
+        });
+    }
+
+    public function scopeWithPrice($query, $price)
+    {
+        if(!$price){
+            return $query;
+        }
+
+        return  $query->where('price', $price);
+    }
+
+    public function scopeWithTitle($query, $title)
+    {
+        if(!$title){
+            return $query;
+        }
+
+        return  $query->where('title', "%$title%");
     }
 }

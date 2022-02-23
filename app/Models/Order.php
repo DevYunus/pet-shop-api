@@ -21,7 +21,6 @@ class Order extends Model
         'order_status_id',
         'payment_id',
         'uuid',
-        'products',
         'address',
         'delivery_fee',
         'amount',
@@ -38,7 +37,6 @@ class Order extends Model
         'user_id' => 'integer',
         'order_status_id' => 'integer',
         'payment_id' => 'integer',
-        'products' => 'array',
         'address' => 'array',
         'delivery_fee' => 'float',
         'amount' => 'float',
@@ -71,7 +69,7 @@ class Order extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'order_product')
+        return $this->belongsToMany(Product::class)
             ->withTimestamps()
             ->withPivot('quantity');
     }

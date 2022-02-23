@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Resources\ProductCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::prefix('v1')->group(function () {
 
 Route::post('admin/login', [App\Http\Controllers\AuthController::class, 'login']);
 
@@ -48,4 +52,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('order/{order:uuid}', 'show');
         Route::delete('order/{order:uuid}', 'destroy');
     });
+
+    //User routes
+    Route::controller(UserController::class)->group(function () {
+        Route::get('user/orders','userOrders');
+        Route::get('user/{user:uuid}', 'show');
+        Route::delete('user/{user:uuid}', 'destroy');
+
+    });
+
+    //Admin routes
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('admin/user-listing','index');
+        Route::delete('user-delete/{user:uuid}', 'destroy');
+    });
 });
+});
+
