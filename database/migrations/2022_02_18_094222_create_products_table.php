@@ -18,13 +18,16 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->softDeletes();
-            $table->uuid('category_uuid');
-            $table->uuid('uuid');
-            $table->string('title');
+            $table->uuid('category_uuid')->index();
+            $table->uuid('uuid')->index();
+            $table->string('title')->index();
             $table->float('price');
             $table->text('description');
             $table->json('metadata');
             $table->timestamps();
+
+            $table->index(['category_uuid','uuid']);
+            $table->index(['uuid','title']);
         });
 
         Schema::enableForeignKeyConstraints();

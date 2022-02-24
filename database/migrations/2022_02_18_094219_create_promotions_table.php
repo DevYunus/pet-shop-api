@@ -17,7 +17,7 @@ class CreatePromotionsTable extends Migration
 
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
+            $table->uuid('uuid')->index();
             $table->string('title');
             $table->string('content');
             $table->json('metadata');

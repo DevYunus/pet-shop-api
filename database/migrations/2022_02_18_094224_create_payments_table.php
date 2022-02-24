@@ -17,10 +17,12 @@ class CreatePaymentsTable extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('type');
+            $table->uuid('uuid')->index();
+            $table->string('type')->index();
             $table->json('details');
             $table->timestamps();
+
+            $table->index(['uuid','type']);
         });
 
         Schema::enableForeignKeyConstraints();

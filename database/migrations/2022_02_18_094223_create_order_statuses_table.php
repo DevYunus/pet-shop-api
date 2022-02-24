@@ -17,9 +17,11 @@ class CreateOrderStatusesTable extends Migration
 
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->string('title');
+            $table->uuid('uuid')->index();
+            $table->string('title')->index();
             $table->timestamps();
+
+            $table->index(['uuid','title']);
         });
 
         Schema::enableForeignKeyConstraints();
