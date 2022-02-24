@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-//        DB::table('users')->insert([
-//            'uuid' => Str::uuid(),
-//            'first_name' => 'yunus',
-//            'last_name' => 'shaikh',
-//            'is_admin' => true,
-//            'email' => 'yunus@gmail.com',
-//            'password' => Hash::make('yunus123'),
-//            'address' => 'Maharashtra',
-//            'phone_number' => '9999999999',
-//        ]);
+       DB::table('users')->insert([
+           'uuid' => Str::uuid(),
+           'first_name' => 'Yunus',
+           'last_name' => 'shaikh',
+           'is_admin' => true,
+           'email' => 'yunus@gmail.com',
+           'password' => Hash::make('yunus123'),
+           'address' => 'India',
+           'phone_number' => '9999999999',
+       ]);
 
         User::factory()->count(2)->create();
     }

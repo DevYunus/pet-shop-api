@@ -23,6 +23,7 @@ class AdminController extends Controller
         $sorting = [$request->input('sortBy'), $request->input('desc',true)];
 
         $users = User::query()
+            ->admin()
             ->withSort($sorting)
             ->withFirstName($request->input('first_name'))
             ->withEmail($request->input('email'))

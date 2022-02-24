@@ -18,8 +18,6 @@ class OrderController extends Controller
      */
     public function index(Request $request): OrderCollection
     {
-        $this->authorize(OrderPolicy::class);
-
         $request->validate([
             'sortBy'=>['sometimes','in:user,order_status,payment'],
             'desc'=>['boolean|required_if:sortBy']

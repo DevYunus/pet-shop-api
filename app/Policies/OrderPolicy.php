@@ -11,34 +11,54 @@ class OrderPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Perform pre-authorization checks.
      *
-     * @return void
+     * @param  \App\Models\User  $user
+     * @param  string  $ability
+     * @return void|bool
      */
-    public function __construct()
-    {
-        //
-    }
-
-    public function before(User $user)
+    public function before(User $user, $ability)
     {
         if ($user->is_admin) {
             return true;
         }
     }
 
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function view(User $user, Order $order)
+    {
+        return $user->id === $order->user_id;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
     public function update(User $user, Order $order)
     {
-        return $user->id === $order->user_id;
+        return $this->view($user, $order);
     }
 
-    public function show(User $user, Order $order)
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function delete(User $user, Order $order)
     {
-        return $user->id === $order->user_id;
+        return $this->view($user, $order);
     }
 
-    public function destroy(User $user, Order $order)
-    {
-        return $user->id === $order->user_id;
-    }
 }

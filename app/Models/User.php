@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function scopeAdmin($query)
+    {
+        return $query->where('is_admin', true);
+    }
 
     public function scopeWithSort($query, $sorting)
     {
