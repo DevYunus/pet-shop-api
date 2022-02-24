@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Policies\OrderPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -13,9 +14,11 @@ class OrderController extends Controller
     /**
      * @param Request $request
      * @return OrderCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request)
+    public function index(Request $request): OrderCollection
     {
+        $this->authorize(OrderPolicy::class);
 
         $request->validate([
             'sortBy'=>['sometimes','in:user,order_status,payment'],
@@ -44,34 +47,39 @@ class OrderController extends Controller
         return new OrderCollection($orders);
     }
 
-
     /**
-     * @param Request $request
      * @param Order $order
      * @return OrderResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show(Request $request, Order $order)
+    public function show(Order $order): OrderResource
     {
+        $this->authorize($order);
+
         return new OrderResource($order);
     }
 
     /**
      * @param Request $request
      * @param Order $order
-     * @return OrderResource
+     * @return void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Order $order)
     {
-        return new OrderResource($order);
+        $this->authorize($order);
+        // todo - implement order update feature
     }
 
     /**
-     * @param Request $request
      * @param Order $order
      * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy(Order $order)
+    public function destroy(Order $order): Response
     {
+        $this->authorize($order);
+
         if(!$order->delete()){
             return \response([
                 'message' => 'Unable to delete Order.'
